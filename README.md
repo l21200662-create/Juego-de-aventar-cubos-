@@ -1,0 +1,27 @@
+# Lanza Cubos 3D
+
+Juego de habilidad en 3D hecho con Three.js. Lanza cubos y observa su caída hasta la plataforma; cada cubo que aterriza se queda en la torre con un color nuevo. Incluye efectos de sonido generados en el navegador y récord guardado localmente.
+
+## Autor
+
+**Jocelin Ramirez Flores**  
+**Número de control:** No proporcionado
+
+## Cómo jugar
+
+- Pulsa **Lanzar cubo**, haz clic en la escena o presiona **Espacio**.
+- Mira el cubo volar, girar y aterrizar. Al tocar la torre emite un sonido y suma un punto.
+- Cada lanzamiento exitoso agrega otro color. El récord se guarda en este navegador.
+
+## Archivos
+
+```text
+index.html
+css/styles.css
+js/main.js
+README.md
+```
+
+## Ejecutar
+
+Abre el proyecto con un servidor estático (por ejemplo, la extensión Live Server de VS Code). La aplicación carga Three.js desde jsDelivr, así que requiere conexión a internet.
