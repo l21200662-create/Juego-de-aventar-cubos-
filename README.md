@@ -5,7 +5,8 @@ Juego de habilidad en 3D hecho con Three.js. Lanza cubos y observa su caída has
 ## Autor
 
 **Jocelin Ramirez Flores**  
-**Número de control:** No proporcionado
+**Número de control:** 21200662  
+**Materia:** Desarrollo de Soluciones en ambientes virtuales
 
 ## Cómo jugar
 
