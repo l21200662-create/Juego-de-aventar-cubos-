@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101827">
+  <meta name="theme-color" content="#10051f">
   <title>Lanza Cubos 3D</title>
   <link rel="stylesheet" href="./css/styles.css">
   <script type="importmap">
@@ -12,13 +12,24 @@
 </head>
 <body>
   <main class="hud">
+    <div class="brand"><span class="brand-mark">✦</span><span>ARCADE LAB <i>· 3D</i></span></div>
     <p class="eyebrow">RETO DE PRECISIÓN</p>
-    <h1>Lanza Cubos</h1>
-    <p class="hint">Espera a que el blanco móvil cruce la torre y lanza en el momento justo.</p>
-    <div class="stats"><span>PUNTOS <b id="score">0</b></span><span>RÉCORD <b id="best">0</b></span></div>
-    <button id="throw-button" type="button">Lanzar cubo <kbd>ESPACIO</kbd></button>
-    <p id="message" aria-live="polite">¡Prepárate para lanzar!</p>
-    <p class="small">El blanco acelera y el margen se reduce cada 3 aciertos. En VR, usa el gatillo.</p>
+    <h1>Lanza <span>Cubos</span></h1>
+    <p class="hint">¡Apunta al centro y construye una torre de colores!</p>
+    <div class="stats">
+      <div class="stat score-stat"><span>⭐ PUNTOS</span><b id="score">0</b></div>
+      <div class="stat"><span>🏆 RÉCORD</span><b id="best">0</b></div>
+      <div class="stat level-stat"><span>⚡ NIVEL</span><b id="level">1</b></div>
+    </div>
+    <button id="throw-button" type="button"><span class="button-icon">➤</span> ¡Lanzar cubo! <kbd>ESPACIO</kbd></button>
+    <p id="message" aria-live="polite">¡Listo! Espera el momento perfecto.</p>
+    <section class="howto" aria-label="Cómo jugar">
+      <h2>¿CÓMO JUGAR?</h2>
+      <div class="step"><span class="step-dot pink"></span><p><b>Observa</b><br>El aro se mueve de lado a lado.</p></div>
+      <div class="step"><span class="step-dot lime"></span><p><b>Apunta</b><br>Espera a que pase por el centro.</p></div>
+      <div class="step"><span class="step-dot cyan"></span><p><b>Lanza</b><br>Pulsa el botón, espacio o gatillo VR.</p></div>
+      <p class="tip">💡 Cada 3 aciertos sube el nivel: el aro acelera y se hace más pequeño.</p>
+    </section>
   </main>
   <div id="scene" aria-label="Juego 3D de lanzar cubos"></div>
   <script type="module" src="./js/main.js"></script>
