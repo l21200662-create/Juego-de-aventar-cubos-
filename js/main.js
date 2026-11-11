@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { VRButton } from 'three/addons/webxr/VRButton.js';
 
 const host = document.querySelector('#scene');
 const scoreEl = document.querySelector('#score');
@@ -12,6 +13,7 @@ const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, .1, 100
 camera.position.set(8, 8, 13);
 camera.lookAt(0, 3, 0);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.xr.enabled = true;
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
 renderer.shadowMap.enabled = true;
@@ -19,6 +21,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 host.append(renderer.domElement);
+document.body.append(VRButton.createButton(renderer));
 scene.add(new THREE.HemisphereLight('#d9f6ff', '#223044', 2));
 const sun = new THREE.DirectionalLight('#fff1d0', 3.2);
 sun.position.set(-5, 12, 8); sun.castShadow = true; sun.shadow.mapSize.set(1024, 1024); scene.add(sun);
@@ -77,6 +80,15 @@ function throwCube() {
 button.addEventListener('click', throwCube);
 renderer.domElement.addEventListener('click', throwCube);
 addEventListener('keydown', event => { if (event.code === 'Space') { event.preventDefault(); throwCube(); } });
+for (let index = 0; index < 2; index++) {
+  const controller = renderer.xr.getController(index);
+  controller.addEventListener('selectstart', throwCube);
+  scene.add(controller);
+  const ray = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -3)]),
+    new THREE.LineBasicMaterial({ color: '#63e6d2', transparent: true, opacity: .8 })
+  );
+  controller.add(ray);
+}
 addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); });
-function animate() { renderer.render(scene, camera); requestAnimationFrame(animate); }
-animate();
+renderer.setAnimationLoop(() => renderer.render(scene, camera));

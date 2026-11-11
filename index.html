@@ -7,7 +7,7 @@
   <title>Lanza Cubos 3D</title>
   <link rel="stylesheet" href="./css/styles.css">
   <script type="importmap">
-    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js" } }
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/" } }
   </script>
 </head>
 <body>
@@ -18,7 +18,7 @@
     <div class="stats"><span>PUNTOS <b id="score">0</b></span><span>RÉCORD <b id="best">0</b></span></div>
     <button id="throw-button" type="button">Lanzar cubo <kbd>ESPACIO</kbd></button>
     <p id="message" aria-live="polite">¡Prepárate para lanzar!</p>
-    <p class="small">También puedes hacer clic en cualquier parte de la escena.</p>
+    <p class="small">En VR, pulsa el gatillo de cualquiera de los controles.</p>
   </main>
   <div id="scene" aria-label="Juego 3D de lanzar cubos"></div>
   <script type="module" src="./js/main.js"></script>
