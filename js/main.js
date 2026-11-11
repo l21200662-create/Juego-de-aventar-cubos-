@@ -35,6 +35,19 @@ const blocks = [];
 const palette = ['#62e6d4','#ffb86b','#a78bfa','#ff6b8a','#72b7ff','#d9f36a','#ff83df'];
 let score = 0, best = Number(localStorage.getItem('cubo-record') || 0), busy = false, audio;
 bestEl.textContent = best;
+const target = new THREE.Mesh(
+  new THREE.RingGeometry(.78, .94, 48),
+  new THREE.MeshBasicMaterial({ color: '#63e6d2', side: THREE.DoubleSide, transparent: true, opacity: .88 })
+);
+target.rotation.x = -Math.PI / 2;
+target.position.y = .015;
+scene.add(target);
+let gameTime = 0;
+function targetXAt(time) {
+  const speed = 1.35 + Math.min(score * .16, 2.5);
+  return Math.sin(time * speed) * 2.35;
+}
+function hitTolerance() { return Math.max(.18, .9 - score * .055); }
 
 function sound(frequency = 420, duration = .12, type = 'sine', volume = .12) {
   try {
@@ -50,15 +63,17 @@ function sound(frequency = 420, duration = .12, type = 'sine', volume = .12) {
 function throwCube() {
   if (busy) return;
   busy = true; button.disabled = true;
+  const shotX = target.position.x;
+  const hit = Math.abs(shotX) <= hitTolerance();
   const color = palette[score % palette.length];
   const material = new THREE.MeshStandardMaterial({ color, roughness: .28, metalness: .12, emissive: color, emissiveIntensity: .08 });
   const cube = new THREE.Mesh(boxGeo, material);
   cube.castShadow = true; cube.receiveShadow = true;
-  cube.position.set(0, 7 + Math.min(score * .15, 3), 5.8);
+  cube.position.set(shotX, 7 + Math.min(score * .15, 3), 5.8);
   cube.rotation.set(.15, .18, .08);
   scene.add(cube);
   const start = performance.now(), duration = 1300;
-  const startY = cube.position.y, landingY = 1.2 + score;
+  const startY = cube.position.y, landingY = hit ? 1.2 + score : .5;
   messageEl.textContent = '¡Cubo en el aire!';
   sound(560, .18, 'triangle', .07);
   function fall(now) {
@@ -67,10 +82,17 @@ function throwCube() {
     cube.position.y = landingY + (startY - landingY) * (1 - t) ** 2;
     cube.rotation.x += .045; cube.rotation.z += .035;
     if (t < 1) { requestAnimationFrame(fall); return; }
-    cube.position.set(0, landingY, 0); cube.rotation.set(0, 0, 0);
+    cube.position.set(hit ? 0 : shotX, landingY, 0); cube.rotation.set(0, 0, 0);
+    if (!hit) {
+      messageEl.textContent = 'Falló. Espera a que el blanco cruce la torre.';
+      sound(135, .35, 'square', .13);
+      setTimeout(() => { scene.remove(cube); cube.material.dispose(); }, 900);
+      busy = false; button.disabled = false;
+      return;
+    }
     blocks.push(cube); score++; scoreEl.textContent = score;
     if (score > best) { best = score; bestEl.textContent = best; localStorage.setItem('cubo-record', best); }
-    messageEl.textContent = '¡Cayó y cambió de color!';
+    messageEl.textContent = `¡Acierto! Nivel ${Math.floor(score / 3) + 1}: el blanco va más rápido.`;
     sound(220 + score * 28, .28, 'sine', .18);
     camera.position.y = Math.max(8, score + 7); camera.lookAt(0, score / 2 + 2, 0);
     busy = false; button.disabled = false;
@@ -91,4 +113,12 @@ for (let index = 0; index < 2; index++) {
   controller.add(ray);
 }
 addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); });
-renderer.setAnimationLoop(() => renderer.render(scene, camera));
+renderer.setAnimationLoop((time) => {
+  gameTime = time / 1000;
+  target.position.x = targetXAt(gameTime);
+  const tolerance = hitTolerance();
+  target.scale.setScalar(tolerance / .9);
+  const aligned = Math.abs(target.position.x) <= tolerance;
+  target.material.color.set(aligned ? '#63e6d2' : '#ff6b8a');
+  renderer.render(scene, camera);
+});
