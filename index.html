@@ -13,25 +13,26 @@
 <body>
   <main class="hud">
     <div class="brand"><span class="brand-mark">✦</span><span>ARCADE LAB <i>· 3D</i></span></div>
-    <p class="eyebrow">RETO DE PRECISIÓN</p>
-    <h1>Lanza <span>Cubos</span></h1>
-    <p class="hint">¡Apunta al centro y construye una torre de colores!</p>
+    <p class="eyebrow">MISIÓN · TIRO AL BLANCO</p>
+    <h1>¡Lanza <span>cubos!</span></h1>
+    <p class="hint">Explora el bosque mágico y atina a los blancos flotantes.</p>
     <div class="stats">
-      <div class="stat score-stat"><span>⭐ PUNTOS</span><b id="score">0</b></div>
+      <div class="stat score-stat"><span>⭐ ACIERTOS</span><b id="score">0</b></div>
       <div class="stat"><span>🏆 RÉCORD</span><b id="best">0</b></div>
-      <div class="stat level-stat"><span>⚡ NIVEL</span><b id="level">1</b></div>
+      <div class="stat level-stat"><span>🎯 BLANCOS</span><b id="remaining">3</b></div>
     </div>
     <button id="throw-button" type="button"><span class="button-icon">➤</span> ¡Lanzar cubo! <kbd>ESPACIO</kbd></button>
-    <p id="message" aria-live="polite">¡Listo! Espera el momento perfecto.</p>
+    <p id="message" aria-live="polite">Apunta con el cursor a un blanco y lanza.</p>
     <section class="howto" aria-label="Cómo jugar">
       <h2>¿CÓMO JUGAR?</h2>
-      <div class="step"><span class="step-dot pink"></span><p><b>Observa</b><br>El aro se mueve de lado a lado.</p></div>
-      <div class="step"><span class="step-dot lime"></span><p><b>Apunta</b><br>Espera a que pase por el centro.</p></div>
-      <div class="step"><span class="step-dot cyan"></span><p><b>Lanza</b><br>Pulsa el botón, espacio o gatillo VR.</p></div>
-      <p class="tip">💡 Cada 3 aciertos sube el nivel: el aro acelera y se hace más pequeño.</p>
+      <div class="step"><span class="step-number">1</span><p><b>APUNTA</b><br>Mueve el cursor y centra el blanco.</p></div>
+      <div class="step"><span class="step-number">2</span><p><b>LANZA</b><br>Haz clic, pulsa ESPACIO o usa el gatillo VR.</p></div>
+      <div class="step"><span class="step-number">3</span><p><b>ACIERTO</b><br>¡Derriba el blanco para sumar puntos!</p></div>
+      <p class="tip">✨ Cada acierto cambia de color y el blanco vuelve en otro lugar.</p>
     </section>
   </main>
   <div id="scene" aria-label="Juego 3D de lanzar cubos"></div>
+  <div id="aim" aria-hidden="true"><span></span></div>
   <script type="module" src="./js/main.js"></script>
 </body>
 </html>
